@@ -22,10 +22,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> words = new ArrayList<>(Arrays.asList("APPLE", "BANANA", "CHERRY"));
+    ArrayList<String> words = new ArrayList<>(Arrays.asList("computer", "game", "app", "test", "console", "fun"));
     String word;
     String scrambledWord;
-    String guess = "";
+    String guess;
     int characters;
     int count;
     int incorrect;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     TextView t;
     TextView w;
     TextView g;
+    TextView i;
 
 
     @Override
@@ -53,12 +54,24 @@ public class MainActivity extends AppCompatActivity {
         t = (TextView) findViewById(R.id.scrambled);
         w = (TextView) findViewById(R.id.word);
 
+
+        guess = "";
+        count = 0;
+        incorrect = 0;
+
         word = selectWord(words);
         characters = word.length();
         scrambledWord = scramble(word);
 
-        t.setText(scrambledWord);
+        t.setText(scrambledWord.toUpperCase());
         w.setText("");
+        updateIncorrect();
+    }
+
+    public void updateIncorrect(){
+        i = (TextView) findViewById(R.id.incorrect_text);
+        String in = String.valueOf(incorrect);
+        i.setText("Incorrect Guesses: " + in);
     }
 
     public void scrambleButtonTest(View v){
@@ -72,10 +85,13 @@ public class MainActivity extends AppCompatActivity {
                 guess += letter;
                 count++;
             }
+            else
+                incorrect++;
         }
 
         w.setText(guess.toUpperCase());
         g.setText("");
+        updateIncorrect();
 
     }
 
