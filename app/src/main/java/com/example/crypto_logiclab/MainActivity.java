@@ -25,6 +25,15 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> words = new ArrayList<>(Arrays.asList("APPLE", "BANANA", "CHERRY"));
     String word;
     String scrambledWord;
+    String guess = "";
+    int characters;
+    int count;
+    int incorrect;
+
+    TextView t;
+    TextView w;
+    TextView g;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +50,32 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        t = (TextView) findViewById(R.id.scrambled);
+        w = (TextView) findViewById(R.id.word);
+
+        word = selectWord(words);
+        characters = word.length();
+        scrambledWord = scramble(word);
+
+        t.setText(scrambledWord);
+        w.setText("");
     }
 
     public void scrambleButtonTest(View v){
-        TextView t = (TextView) findViewById(R.id.scrambled);
-        TextView w = (TextView) findViewById(R.id.word);
 
-        word = selectWord(words);
-        scrambledWord = scramble(word);
-        t.setText(scrambledWord);
-        w.setText(word);
+        w = (TextView) findViewById(R.id.word);
+        g = (TextView) findViewById(R.id.input_guess);
+
+        String letter = g.getText().toString();
+        if(count != word.length()) {
+            if (letter.equalsIgnoreCase(String.valueOf(word.charAt(count)))) {
+                guess += letter;
+                count++;
+            }
+        }
+
+        w.setText(guess.toUpperCase());
+        g.setText("");
 
     }
 
